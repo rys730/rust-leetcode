@@ -56,6 +56,22 @@ impl SlidingWindow {
         }
         ans
     }
+
+
+    pub fn fixed_window_size(nums: Vec<i32>, size: usize) -> usize{
+        let mut curr = 0;
+        let mut ans = 0;
+        // get first batch result
+        for i in 0..size  {
+            ans += nums[i];
+        }
+        curr = ans;
+        for j in size..nums.len(){
+            curr += nums[j] - nums[j-size];
+            ans = max_by(ans, curr, |x, y| x.cmp(&y));
+        }
+        ans as usize
+    }
 }
 
 struct SlidingWindow{}
@@ -96,5 +112,14 @@ fn test3() {
     let test_case = vec![10, 5, 2, 6];
     let constraint = 100;
     let res = SlidingWindow::subarray_product(test_case, constraint);
+    dbg!(res);
+}
+
+// Example 4: Given an integer array nums and an integer k, find the sum of the subarray with the largest sum whose length is k.
+#[test]
+fn test4() {
+    let test_case = vec![1,20,3,4];
+    let constraint = 2;
+    let res = SlidingWindow::fixed_window_size(test_case, constraint);
     dbg!(res);
 }
