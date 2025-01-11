@@ -40,6 +40,22 @@ impl SlidingWindow {
         }
         ans as usize
     }
+
+    // [10, 5, 2, 6]
+    pub fn subarray_product(nums: Vec<i32>, constraint: i32) -> usize{
+        let mut left = 0;
+        let mut ans = 0;
+        let mut curr = 1;
+        for right in 0..nums.len(){
+            curr *= nums[right];
+            while curr >= constraint {
+                curr /= nums[left];
+                left += 1;
+            }
+            ans += right  - left + 1;
+        }
+        ans
+    }
 }
 
 struct SlidingWindow{}
@@ -64,9 +80,21 @@ fn test2() {
     dbg!(res);
 }
 
+
+
+
+// Example 3: 713. Subarray Product Less Than K.
+
+// Given an array of positive integers nums and an integer k, return the number of subarrays where the product of all the elements in the subarray is strictly less than k.
+
+// For example, given the input nums = [10, 5, 2, 6], k = 100, the answer is 8. The subarrays with products less than k are:
+
+// [10], [5], [2], [6], [10, 5], [5, 2], [2, 6], [5, 2, 6]
+
 #[test]
-fn feature() {
-    let a = 0 as usize;
-    let b = 0 as usize;
-    let res = a - b;
+fn test3() {
+    let test_case = vec![10, 5, 2, 6];
+    let constraint = 100;
+    let res = SlidingWindow::subarray_product(test_case, constraint);
+    dbg!(res);
 }
